@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 
 namespace TechJobsConsole
 {
@@ -36,10 +38,18 @@ namespace TechJobsConsole
 
                     if (columnChoice.Equals("all"))
                     {
+                        //If user selects List '1' --> '4'-All, then all the jobs shoudl be displayed in required format
+
                         PrintJobs(JobData.FindAll());
                     }
                     else
                     {
+                        //This writes all the values(based on column choice by user, 0,1,2,3 in List By menu.
+                        //If '0' is selected it displays all skills
+                        //If '1' is selected it displays all employers
+                        //If '2' is selected it displays all locations
+                        //If '3' is selected it displays all positions
+
                         List<string> results = JobData.FindAll(columnChoice);
 
                         Console.WriteLine("\n*** All " + columnChoices[columnChoice] + " Values ***");
@@ -63,10 +73,16 @@ namespace TechJobsConsole
                     // Fetch results
                     if (columnChoice.Equals("all"))
                     {
-                        Console.WriteLine("Search all fields not yet implemented.");
+                        //Console.WriteLine("Search all fields not yet implemented.");
+                        //Prints on the basis of searchTerm entered by User
+                        //This is selection menu '0' (search)--> '4'-All
+                        searchResults = JobData.FindByValue(searchTerm);
+                        PrintJobs(searchResults);
                     }
                     else
                     {
+                        //Prints on the basis of columnChoice (skill, employer, location, position type) and searchTerm entered by User
+                        //This is selection menu '0' (search) --> '0','1','2','3'
                         searchResults = JobData.FindByColumnAndValue(columnChoice, searchTerm);
                         PrintJobs(searchResults);
                     }
@@ -118,7 +134,27 @@ namespace TechJobsConsole
 
         private static void PrintJobs(List<Dictionary<string, string>> someJobs)
         {
-            Console.WriteLine("PrintJobs is not implemented yet");
+            //Console.WriteLine("printJobs is not implemented yet");
+            //If search word entered by user doesn't finds any match, then msg nothing found on screen
+            int count = someJobs.Count;
+
+            if (count == 0)
+            {
+                Console.WriteLine("No match found!");
+            }
+
+            //If search word finds any matches, prints in kvp Key, Value format on screen
+            else
+            {
+                foreach (Dictionary<string, string> job in someJobs)
+                {
+                    Console.WriteLine("\n*****\n");
+                    foreach (KeyValuePair<string, string> kvp in job)
+                    {
+                        Console.WriteLine($"{kvp.Key} : {kvp.Value}");
+                    }
+                }
+            }
         }
     }
 }
