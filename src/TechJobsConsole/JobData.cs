@@ -63,8 +63,7 @@ namespace TechJobsConsole
             return jobs;
         }
 
-        //FindByValue() will search for a string value within each of the columns
-
+        //FindByValue() will search for a string value (searchTerm)
         public static List<Dictionary<string, string>> FindByValue(string value)
         {
             LoadData();
@@ -78,6 +77,7 @@ namespace TechJobsConsole
                     if (kvp.Value.ToLower().Contains(value.ToLower()))
                     {
                         jobs.Add(job);
+                        break;
                     }
                 }
             }
